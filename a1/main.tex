@@ -8,6 +8,7 @@
 \lstset{language=Python, basicstyle=\normalsize\sffamily\linespread{0.8}, numbers=left, numberstyle=\small, stepnumber=1, numbersep=5pt}
 \usepackage{fancyhdr}
 \usepackage{pdfpages} 
+\usepackage[normalem]{ulem}
 \setlength{\parindent}{0pt}
 
 \pagestyle{fancy}
@@ -37,7 +38,7 @@
 \includepdf[page={1}]{title.pdf}
 \includepdf[page={1}]{model.pdf}
 \section*{Entity Relation Model for Academic system of IITK}
-Above ER Model descibes the academic system of IIT Kanpur, lets discuss each of the attributes and relationships in more detail.
+Above ER Model descibes the academic system of IIT Kanpur, lets discuss non trivial part of the attributes and relationships in more detail.
 
 \subsection*{Entities}
 \begin{itemize}
@@ -93,6 +94,50 @@ Above ER Model descibes the academic system of IIT Kanpur, lets discuss each of 
 	which would signify, in which semester one should do this course, for example, CSE BTechs need to do LIF101
 	in $2^{nd}$ semester. Course type is similar to what we discussed in course entity. ie how one should take this
 	course in order to complete the template. For eg LIF101 should be done as IC by UGs.
+\end{itemize}
+
+\pagebreak
+
+\section*{Problem 2: Conversion to Relation Model}
+Using the scheme discussed in lecture, converted ER model is given by (dashed underline: Foreign key, solid underline: Primary key):
+\begin{itemize}
+	\item \textbf{Student} (\underline{Roll Number}, Name, Email ID)
+
+	\item \textbf{Faculty} (\underline{Faculty ID}, Name, Email ID, Office Address)
+
+	\item \textbf{Faculty\_Contact} (\dashuline{Faculty ID}, Phone Number) // \textit{Faculty ID is a foriegn key in Faculty}
+
+	\item \textbf{Department} (\underline{Department ID}, Department Name, Website)
+
+	\item \textbf{Course} (\underline{Course ID}, Title, Credits, Description)
+
+	\item \textbf{Pre\_Requisites} (\dashuline{Course ID}, Pre Req Course ID) // \textit{Second course ID represent ID for pre req.}
+
+	\item \textbf{Course\_Type} (\dashuline{Course ID}, type) // \textit{Type can be DC, IC, OE etc.}
+
+	\item \textbf{Program} (\underline{Program ID}, Program Name) // \textit{can be BTech in CS, MTech in CS, minor in algo. etc.}
+
+	\item \textbf{Template} (\underline{Program ID}, \underline{Course ID}, Semester, Course Type)
+
+	\item \textbf{Programs\_Offered} (\dashuline{Department ID}, Program ID)
+
+	\item \textbf{Dept\_Course} (\underline{Course ID}, Department ID)
+
+	\item \textbf{Offering} (\underline{Course ID}, \underline{Faculty ID}, \underline{Year}, \underline{Sem}, Lecture Hall, Lecture Schedule)
+
+	\item \textbf{Tutors} (\underline{Course ID}, \underline{Faculty ID}, \underline{Year}, \underline{Sem}, Tutor ID) // \textit{Since a tutor can be either a student or a faculty, this tutor ID is either roll number or faculty ID}
+
+	\item \textbf{Teaching\_Assistants} (\underline{Course ID}, \underline{Faculty ID}, \underline{Year}, \underline{Sem}, Roll Number) // \textit{Since TA are always student}
+
+	\item \textbf{Course\_Undertaken} (\underline{Roll Number}, \underline{Course ID}, \underline{Year}, \underline{Sem}, Course Type, Course Nature, Grade, Quantity, Program ID)
+
+	\item \textbf{Student\_Department} (\underline{Roll Number}, \underline{Department ID}, Program ID)
+
+
+	\item \textbf{Facutly Advisor} (\underline{Roll Number}, Faculty ID, Thesis title)
+
+	\item \textbf{Faculty\_Department} (\underline{Faculty ID}, Department ID, PoR)
+
 \end{itemize}
 
 \end{document}
