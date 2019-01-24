@@ -61,13 +61,26 @@ Above ER Model descibes the academic system of IIT Kanpur, lets discuss non triv
 \begin{itemize}
 	\item{\textbf{Faculty Advisor:}} This relationship is useful for MTech/PhD students, it represents
 	the faculty advisor for that student. Attribute thesis title is needed for research title.
-	Note that we can also store the UGP supervisors for the UG students here.
+	Note that we can also store the UGP supervisors for the UG students here. \\
+	Assuming that a student has only one main faculty advisor, this is a many(student) to one(student) relationship.
+	Participation on either side is not total since a student might not have a faculty advisor,
+	similarly a faculty might not have any student.
+
 	\item{\textbf{Student-Department:}} This relationship define how a student is related to a particular department.
 	It has attribute program ID to represent this relation. For example student A is doing minors in
-	Algorithms, then he is related to CSE with program ID = program\_ID(algorithms).
+	Algorithms, then he is related to CSE with program ID = program\_ID(algorithms). \\
+	Since a student might be involved in more that one department (major in one, minor in other),
+	this is a many to many relationship, but note that a student is related to alteast one department,
+	so it has a total participation from the student side. I am assuming that a department can exist without any student.
+	Hence not total participation from dept side.
+
 	\item{\textbf{Faculty-Dept:}} It represents the department which a facult belongs to. 
 	It has a attribute PoR to represent if he is holding some position in the academic committee of department,
-	eg Prof. Anil Seth is DUGC of CSE, so this attribute will be DUGC for him.
+	eg Prof. Anil Seth is DUGC of CSE, so this attribute will be DUGC for him. \\
+	Since a faculty is related to only one department, this is a many(department) to one(faculty) relationship.
+	Note that each faculty member is involved with one department, so this is total participation from the faculty side.
+	I am assuming that a department might exist without any faculty, hence participation from department is not total.
+
 	\item{\textbf{Course Undertaken:}} This relationship is to define the courses a student has done
 	in past or doing currently. It has attribute grade, which can be used in SPI/CPI calculation.\\
 	Course Nature is fresh/repeat etc. Course type is used to represent how this student is doing this course,
@@ -79,21 +92,32 @@ Above ER Model descibes the academic system of IIT Kanpur, lets discuss non triv
 	But for MTech/PhD this can be $>1$. Lets say that student A is taking $4$ thesis credits, this would mean
 	that he is taking course CS699 (or other equivalant) $4$ times, for which he would get diffent grades. \\
 	Also note that grade is a mutli valued attribute for the above reason, as an MTech might get 3 diffent
-	grades in the 3 thesis credits.
+	grades in the 3 thesis credits. \\
+
+	Assuming that a student has to take atleast one course, this relation is total from the student side.
+	But note that course might be offered but no one took it, so course is not total participation. 
+
 	\item{\textbf{Offering:}} This relationship between course and faculty reprents the offering of this
 	course by this particular faculty. This offering has year, semester as attribute as a instructor might
 	offer same course multiple times. This relationship also contain some other relevant informations like lecture hall,
-	tutors, TA, and course timings.
+	tutors, TA, and course timings. 
+
 	\item{\textbf{Dept-Course:}} This relationship is necessary since a course is offered by faculty members
 	of a particular department only. For example MTH101, would only be offered by faculty members of mathematics department only.
+	\\
+	Its a many (course) to one(dept) relationship, since a course can belong to particular department.
+
 
 	\item{\textbf{Programs offered}} This relationship incorporates which all programs are offered by a
-	particular department. For example CSE offers minors in 5-6 fields, major, BTech, Dual etc.
+	particular department. For example CSE offers minors in 5-6 fields, majorin CS, BTech in CS, Dual etc.\\
+	Many(programs) to one(department), since a program can only belong to only one department. Here a program is like BTech in Economics and not just BTech. There is total participation from both sides since, none can exist without the other.
+
 	\item{\textbf{Template}} Relationship between program and course is needed to store which all course one
 	needs to complete in order to get this program's recognition. This relationship has an attribute semester,
 	which would signify, in which semester one should do this course, for example, CSE BTechs need to do LIF101
 	in $2^{nd}$ semester. Course type is similar to what we discussed in course entity. ie how one should take this
-	course in order to complete the template. For eg LIF101 should be done as IC by UGs.
+	course in order to complete the template. For eg LIF101 should be done as IC by UGs. \\
+	Total participation from both side is needed, since none can be without other.
 \end{itemize}
 
 \textbf{Note:} Grade is a single valued attribute, but to incorporates the for mutliple thesis credits, we can keep the grade as comma seperated. Also note that this would work fine since the grades are only S/X are not required in CPI/SPI calculations.
@@ -105,7 +129,7 @@ Using the scheme discussed in lecture, converted ER model is given by (dashed un
 \begin{itemize}
 	\item \textbf{Student} (\underline{Roll Number}, Name, Email ID)
 
-	\item \textbf{Faculty} (\underline{Faculty ID}, Name, Email ID, Office Address)
+	\item \textbf{Faculty} (\underline{Faculty ID}, Name, Email ID, Office Address, Year, Month, Day)
 
 	\item \textbf{Faculty\_Contact} (\dashuline{Faculty ID}, Phone Number) // \textit{Faculty ID is a foriegn key in Faculty}
 
