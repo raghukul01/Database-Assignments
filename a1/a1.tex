@@ -85,6 +85,8 @@
 	\node[attribute] [below right=of faculty] {Email ID} edge(faculty);
 	\node[attribute] [below=of faculty] {Office Address} edge(faculty);
 	\node[multi attribute] [above=of faculty] {Phone Number} edge(faculty);
+  \node[attribute] [above left=of faculty ] {date of joining} edge(faculty); 
+  % TODO: this attribute has other fields like data month and year.
 
 	\node[relationship] (deptCourse) [right=2cm of department] {Dept$-$Course} edge(department);
 
@@ -116,6 +118,7 @@
   \node[attribute] [below left=of undertaken] {Grade} edge(undertaken);
   \node[attribute] [above left=of undertaken] {Program ID} edge(undertaken);
   \node[attribute] [left=of undertaken] {Quantity} edge(undertaken);
+  % TODO: Grades becomes a multivalued attrite when count is used, since mtech can take more that 1 thesis courses.
 
   \node[entity] (program) [below right=6cm and 3cm of department] {Program};
   \node[attribute] [below=of program] {\key{Program ID}} edge(program);
@@ -126,54 +129,6 @@
   \node[relationship] (programCourse) [below=5.5cm of course] {Template} edge(program) edge(course);
   \node[attribute] [above right=of programCourse] {Semester} edge(programCourse);
   \node[attribute] [right=of programCourse] {Course Type} edge(programCourse);
-
-  % \node[entity] (emp) {Employee};
-  % \node[attribute] (ename) [above=of emp] {Name} edge (emp);
-  % \node[attribute] (enum) [above right=of emp] {\key{Number}} edge (emp);
-
-  % \node[isa] (isa) [below=1cm of emp] {ISA} edge (emp);
-
-  % \node[entity] (mec) [below left=1cm of isa] {Mechanic} edge (isa);
-  % \node[entity] (sal) [below right=1cm of isa] {Salesman} edge (isa);
-
-  % \node[relationship] (does) [left=of mec] {Does} edge (mec);
-
-  % \node[weak entity] (rep) [below=of does] {RepairJob} edge (does);
-  % \node[attribute] (rnum) [left=of rep] {\discriminator{Number}} edge (rep);
-  % \node[attribute] (desc) [above left=of rep] {Description} edge (rep);
-  % \node[attribute] (cost) [below left=of rep] {Cost} edge (rep);
-  % \node[attribute] (mat) [left=0.5cm of cost] {Parts} edge (cost);
-  % \node[attribute] (work) [below left=0.5cm of cost] {Work} edge (cost);
-
-  % \node[ident relationship] (reps) [below=of rep] {Repairs} edge [total] (rep);
-
-  % \node[entity] (car) [right=of reps] {Car} edge [<-] (reps);
-  % \node[attribute] (lic) [above=of car] {\key{License}} edge (car);
-  % \node[attribute] (mod) [below=of car] {Model} edge (car);
-  % \node[attribute] (year) [below right=of car] {Year} edge (car);
-  % \node[attribute] (manu) [below left=1.5cm of car] {Manufacturer} edge (car);
-  
-  % \node[relationship] (buy) [below=of sal] {Buys};
-  % \node[attribute] (pri) [above left=of buy] {Price} edge (buy);
-  % \node[attribute] (sdate) [left=of buy] {Date} edge (buy);
-  % \node[attribute] (bval) [below left=of buy] {Value} edge (buy);
-
-  % \node[relationship] (sel) [right=of buy] {Sells};
-  % \node[attribute] (sdate) [above right=of sel] {Date} edge (sel);
-  % \node[derived attribute] (sval) [right=of sel] {Value} edge (sel);
-  % \node[attribute] (com) [below right=of sel] {Comission} edge (sel);
-  
-  % \draw[link] (car.10) -| (buy) (buy) edge (sal);
-  % \draw[link] (car.-10) -| (sel) (sel) |- (sal);
-
-  % \node[entity] (cli) [below right=0.5cm and 3.7cm of car] {Client};
-  % \node[attribute] (cid) [right=of cli] {\key{ID}} edge (cli);
-  % \node[attribute] (cname) [below left=of cli] {Name} edge (cli);
-  % \node[multi attribute] (cphone) [below right=of cli] {Phone} edge (cli);
-  % \node[attribute] (cadd) [below=of cli] {Address} edge (cli);
-
-  % \draw[link] (cli.70) |- node [pos=0.05, auto, swap] {buyer} (sel);
-  % \draw[link] (cli.110) |- node [pos=0.05, auto] {seller} (buy);
 
 \end{tikzpicture}
 }
