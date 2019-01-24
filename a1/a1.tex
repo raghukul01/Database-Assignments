@@ -61,60 +61,62 @@
 \scalebox{.8}{
 \begin{tikzpicture}[node distance=1.5cm, every edge/.style={link}]
 
-	\node[entity] (student) {Student};
-	\node[attribute] [above=of student] {\key{Roll Number}} edge(student);
-	\node[attribute] [above right=of student] {Email} edge(student);
-	\node[attribute] [above left=of student] {Name} edge(student);
+  \node[entity] (student) {Student};
+  \node[attribute] [above=of student] {\key{Roll Number}} edge(student);
+  \node[attribute] [above right=of student] {Email} edge(student);
+  \node[attribute] [above left=of student] {Name} edge(student);
 
 
-	\node[relationship] (studentDept) [below=8cm of student] {Student$-$Department} edge(student);
-	\node[attribute] [above left=of studentDept] {Program ID} edge(studentDept);
-	\node[attribute] [below left=of studentDept] {Program Name} edge(studentDept);
+  \node[relationship] (studentDept) [below=8cm of student] {Student$-$Department} edge(student);
+  \node[attribute] [left=of studentDept] {Program ID} edge(studentDept);
 
-	\node[entity] (department) [below=8cm of studentDept] {Department} edge(studentDept);
-	\node[attribute] [left=of department] {Department Name} edge(department);
-	\node[attribute] [above left=of department] {\key{Department ID}} edge(department);
-	\node[attribute] [below left=of department] {Website} edge(department);
+  \node[entity] (department) [below=8cm of studentDept] {Department} edge(studentDept);
+  \node[attribute] [left=of department] {Department Name} edge(department);
+  \node[attribute] [above left=of department] {\key{Department ID}} edge(department);
+  \node[attribute] [below left=of department] {Website} edge(department);
 
-	\node[relationship] (studentFaculty) [right=4cm of student] {Faculty Advisor} edge(student);
-	\node[attribute] [above=of studentFaculty] {Thesis title} edge(studentFaculty);
+  \node[relationship] (studentFaculty) [right=4cm of student] {Faculty Advisor} edge(student);
+  \node[attribute] [above=of studentFaculty] {Thesis title} edge(studentFaculty);
 
-	\node[entity] (faculty) [right=4cm of studentFaculty] {Faculty} edge(studentFaculty);
-	\node[attribute] [above right=of faculty] {\key{Faculty ID}} edge(faculty);
-	\node[attribute] [right=of faculty] {Name} edge(faculty);
-	\node[attribute] [below right=of faculty] {Email ID} edge(faculty);
-	\node[attribute] [below=of faculty] {Office Address} edge(faculty);
-	\node[multi attribute] [above=of faculty] {Phone Number} edge(faculty);
-  \node[attribute] [above left=of faculty ] {date of joining} edge(faculty); 
+  \node[entity] (faculty) [right=4cm of studentFaculty] {Faculty} edge(studentFaculty);
+  \node[attribute] [above right=of faculty] {\key{Faculty ID}} edge(faculty);
+  \node[attribute] [right=of faculty] {Name} edge(faculty);
+  \node[attribute] [below right=of faculty] {Email ID} edge(faculty);
+  \node[attribute] [below=of faculty] {Office Address} edge(faculty);
+  \node[multi attribute] [above=of faculty] {Phone Number} edge(faculty);
+  \node[attribute] (dt) [above left=of faculty ] {date of joining} edge(faculty); 
+  \node[attribute] [above=of dt] {Day} edge(dt);
+  \node[attribute] [above right=of dt] {Month} edge(dt);
+  \node[attribute] [below=of dt] {Year} edge(dt);
   % TODO: this attribute has other fields like data month and year.
 
-	\node[relationship] (deptCourse) [right=2cm of department] {Dept$-$Course} edge(department);
+  \node[relationship] (deptCourse) [right=2cm of department] {Dept$-$Course} edge(department);
 
-	\node[entity] (course) [right=4cm of deptCourse] {Course} edge(deptCourse);
-	\node[attribute] [above right=of course] {\key{Course ID}} edge(course);
-	\node[attribute] [right=of course] {Title} edge(course);
-	\node[attribute] [below right=of course] {Credits} edge(course);
-	\node[attribute] [below=of course] {description} edge(course);
-	\node[multi attribute] [below left=of course] {Pre Requisites} edge(course);
+  \node[entity] (course) [right=4cm of deptCourse] {Course} edge(deptCourse);
+  \node[attribute] [above right=of course] {\key{Course ID}} edge(course);
+  \node[attribute] [right=of course] {Title} edge(course);
+  \node[attribute] [below right=of course] {Credits} edge(course);
+  \node[attribute] [below=of course] {description} edge(course);
+  \node[multi attribute] [below left=of course] {Pre Requisites} edge(course);
   \node[multi attribute] [above left=of course] {Type} edge(course);
 
 
-	\node[relationship] (offering) [above right=4cm and 1.5cm of course] {Offering} edge(course) edge(faculty);
-	\node[attribute] [above right=of offering] {Year} edge(offering);
-	\node[attribute] [right=of offering] {Sem (odd/even)} edge(offering);
-	\node[multi attribute] [below right=of offering] {Tutor} edge(offering);
-	\node[multi attribute] [below left=of offering] {Teaching Assistant} edge(offering);
-	\node[attribute] [left=of offering] {Lecture Hall} edge(offering);
-	\node[attribute] [above left=of offering] {Lecture Schedule} edge(offering);
+  \node[relationship] (offering) [above right=4cm and 1.5cm of course] {Offering} edge(course) edge(faculty);
+  \node[attribute] [above right=of offering] {Year} edge(offering);
+  \node[attribute] [right=of offering] {Sem (odd/even)} edge(offering);
+  \node[multi attribute] [below right=of offering] {Tutor} edge(offering);
+  \node[multi attribute] [below left=of offering] {Teaching Assistant} edge(offering);
+  \node[attribute] [left=of offering] {Lecture Hall} edge(offering);
+  \node[attribute] [above left=of offering] {Lecture Schedule} edge(offering);
 
-	\node[relationship] (facultyDept) [below left=5cm and 2cm of studentFaculty] {Faculty-Dept} edge(faculty) edge(department);
-	\node[attribute] [left=of facultyDept] {PoR (DUGC/DPGC etc)} edge(facultyDept);
+  \node[relationship] (facultyDept) [below left=5cm and 2cm of studentFaculty] {Faculty-Dept} edge(faculty) edge(department);
+  \node[attribute] [left=of facultyDept] {PoR (DUGC/DPGC etc)} edge(facultyDept);
 
-	\node[relationship] (undertaken) [above left=10cm and 0.1cm of course] {Course Undertaken} edge(student) edge(course);
-	\node[attribute] [right=of undertaken] {Course Type} edge(undertaken);
-	\node[attribute] [below right=of undertaken] {Course Nature} edge(undertaken);
-	\node[attribute] [above=of undertaken] {Year} edge(undertaken);
-	\node[attribute] [above right=of undertaken] {Sem (odd/even)} edge(undertaken);
+  \node[relationship] (undertaken) [above left=10cm and 0.1cm of course] {Course Undertaken} edge(student) edge(course);
+  \node[attribute] [right=of undertaken] {Course Type} edge(undertaken);
+  \node[attribute] [below right=of undertaken] {Course Nature} edge(undertaken);
+  \node[attribute] [above=of undertaken] {Year} edge(undertaken);
+  \node[attribute] [above right=of undertaken] {Sem (odd/even)} edge(undertaken);
   \node[attribute] [below left=of undertaken] {Grade} edge(undertaken);
   \node[attribute] [above left=of undertaken] {Program ID} edge(undertaken);
   \node[attribute] [left=of undertaken] {Quantity} edge(undertaken);
