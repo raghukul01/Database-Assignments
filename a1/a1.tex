@@ -67,7 +67,7 @@
   \node[attribute] [above left=of student] {Name} edge(student);
 
 
-  \node[relationship] (studentDept) [below=8cm of student] {Student$-$Department} edge(student);
+  \node[relationship] (studentDept) [below=8cm of student] {Student$-$Department} edge[double](student);
   \node[attribute] [left=of studentDept] {Program ID} edge(studentDept);
 
   \node[entity] (department) [below=8cm of studentDept] {Department} edge(studentDept);
@@ -78,7 +78,7 @@
   \node[relationship] (studentFaculty) [right=4cm of student] {Faculty Advisor} edge(student);
   \node[attribute] [above=of studentFaculty] {Thesis title} edge(studentFaculty);
 
-  \node[entity] (faculty) [right=4cm of studentFaculty] {Faculty} edge(studentFaculty);
+  \node[entity] (faculty) [right=4cm of studentFaculty] {Faculty} edge[<-](studentFaculty);
   \node[attribute] [above right=of faculty] {\key{Faculty ID}} edge(faculty);
   \node[attribute] [right=of faculty] {Name} edge(faculty);
   \node[attribute] [below right=of faculty] {Email ID} edge(faculty);
@@ -90,7 +90,7 @@
   \node[attribute] [below=of dt] {Year} edge(dt);
   % TODO: this attribute has other fields like data month and year.
 
-  \node[relationship] (deptCourse) [right=2cm of department] {Dept$-$Course} edge(department);
+  \node[relationship] (deptCourse) [right=2cm of department] {Dept$-$Course} edge[->](department);
 
   \node[entity] (course) [right=4cm of deptCourse] {Course} edge(deptCourse);
   \node[attribute] [above right=of course] {\key{Course ID}} edge(course);
@@ -109,10 +109,10 @@
   \node[attribute] [left=of offering] {Lecture Hall} edge(offering);
   \node[attribute] [above left=of offering] {Lecture Schedule} edge(offering);
 
-  \node[relationship] (facultyDept) [below left=5cm and 2cm of studentFaculty] {Faculty-Dept} edge(faculty) edge(department);
+  \node[relationship] (facultyDept) [below left=5cm and 2cm of studentFaculty] {Faculty-Dept} edge[double](faculty) edge[->](department);
   \node[attribute] [left=of facultyDept] {PoR (DUGC/DPGC etc)} edge(facultyDept);
 
-  \node[relationship] (undertaken) [above left=10cm and 0.1cm of course] {Course Undertaken} edge(student) edge(course);
+  \node[relationship] (undertaken) [above left=10cm and 0.1cm of course] {Course Undertaken} edge[double](student) edge(course);
   \node[attribute] [right=of undertaken] {Course Type} edge(undertaken);
   \node[attribute] [below right=of undertaken] {Course Nature} edge(undertaken);
   \node[attribute] [above=of undertaken] {Year} edge(undertaken);
@@ -126,9 +126,9 @@
   \node[attribute] [below=of program] {\key{Program ID}} edge(program);
   \node[attribute] [below left=of program] {Program Name} edge(program);
 
-  \node[relationship] (programDept) [below=2cm of department] {Programs offered} edge(department) edge(program);
+  \node[relationship] (programDept) [below=2cm of department] {Programs offered} edge[double, ->](department) edge[double](program);
 
-  \node[relationship] (programCourse) [below=5.5cm of course] {Template} edge(program) edge(course);
+  \node[relationship] (programCourse) [below=5.5cm of course] {Template} edge[double](program) edge[double](course);
   \node[attribute] [above right=of programCourse] {Semester} edge(programCourse);
   \node[attribute] [right=of programCourse] {Course Type} edge(programCourse);
 
