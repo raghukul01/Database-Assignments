@@ -10,11 +10,11 @@
 \usepackage{fancyhdr}
 \setlength{\parindent}{0pt}
 
-\pagestyle{fancy}
-\fancyhf{}
-\lhead{\textbf{\NAME\ (\ANDREWID)}}
-\chead{\textbf{Assignment \HWNUM}}
-\rhead{\COURSE}
+% \pagestyle{fancy}
+% \fancyhf{}
+% \lhead{\textbf{\NAME\ (\ANDREWID)}}
+% \chead{\textbf{Assignment \HWNUM}}
+% \rhead{\COURSE}
 %\usepackage[landscape]{geometry}
 \usepackage{graphicx}
 
@@ -83,7 +83,7 @@
 	\node[attribute] [above right=of faculty] {\key{Faculty ID}} edge(faculty);
 	\node[attribute] [right=of faculty] {Name} edge(faculty);
 	\node[attribute] [below right=of faculty] {Email ID} edge(faculty);
-	\node[attribute] [below=of faculty] {Address} edge(faculty);
+	\node[attribute] [below=of faculty] {Office Address} edge(faculty);
 	\node[multi attribute] [above=of faculty] {Phone Number} edge(faculty);
 
 	\node[relationship] (deptCourse) [right=2cm of department] {Dept$-$Course} edge(department);
@@ -94,6 +94,7 @@
 	\node[attribute] [below right=of course] {Credits} edge(course);
 	\node[attribute] [below=of course] {description} edge(course);
 	\node[multi attribute] [below left=of course] {Pre Requisites} edge(course);
+  \node[multi attribute] [above left=of course] {Type} edge(course);
 
 
 	\node[relationship] (offering) [above right=4cm and 1.5cm of course] {Offering} edge(course) edge(faculty);
@@ -112,7 +113,18 @@
 	\node[attribute] [below right=of undertaken] {Course Nature} edge(undertaken);
 	\node[attribute] [above=of undertaken] {Year} edge(undertaken);
 	\node[attribute] [above right=of undertaken] {Sem (odd/even)} edge(undertaken);
+  \node[attribute] [below left=of undertaken] {Grade} edge(undertaken);
+  \node[attribute] [above left=of undertaken] {Program ID} edge(undertaken);
 
+  \node[entity] (program) [below right=6cm and 3cm of department] {Program};
+  \node[attribute] [below=of program] {\key{Program ID}} edge(program);
+  \node[attribute] [below left=of program] {Program Name} edge(program);
+
+  \node[relationship] (programDept) [below=2cm of department] {Programs offered} edge(department) edge(program);
+
+  \node[relationship] (programCourse) [below=5.5cm of course] {Template} edge(program) edge(course);
+  \node[attribute] [above right=of programCourse] {Semester} edge(programCourse);
+  \node[attribute] [right=of programCourse] {Course Type} edge(programCourse);
 
   % \node[entity] (emp) {Employee};
   % \node[attribute] (ename) [above=of emp] {Name} edge (emp);
