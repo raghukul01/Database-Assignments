@@ -1,15 +1,18 @@
 CREATE TABLE student(
     rollno INTEGER PRIMARY KEY,
     name VARCHAR(50) NOT NULL,
-    email VARCHAR(20) NOT NULL -- assuming that email has max 8 character username (eg raghukul@iitk.ac.in)
+    cpi DECIMAL(3, 1), -- NULL value of CPI means that he is a fresher
+    email VARCHAR(20) NOT NULL, -- assuming that email has max 8 character username (eg raghukul@iitk.ac.in)
     -- I have not kept email unique since old student mail ID are used for 
     -- assignment to new student, after they graduate.
+    CHECK (cpi >= 0.0 AND cpi <= 10.0)
 );
 
 CREATE TABLE faculty(
     fid INTEGER PRIMARY KEY,
     name VARCHAR(50) NOT NULL,
     email VARCHAR(20) NOT NULL,
+    position VARCHAR(20) NOT NULL,
     officeaddr VARCHAR(100), -- office might not be known for some faculty
     -- Next 3 attributes represent the date of joining
     year INTEGER,
@@ -17,7 +20,8 @@ CREATE TABLE faculty(
     day INTEGER,
     CHECK (day >= 1 AND day <= 31),
     CHECK (month >= 1 AND day <= 12),
-    CHECK (year >= 1959) -- faculty must join after the establishment of IITK :P
+    CHECK (year >= 1959), -- faculty must join after the establishment of IITK :P
+    CHECK (position IN ('Assistant Professor', 'Associate Professor', 'Professor'))
 );
 
 CREATE TABLE faculty_contact(
@@ -72,7 +76,8 @@ CREATE TABLE course_type(
     courseid VARCHAR(10),
     ctype VARCHAR(10),
     PRIMARY KEY (courseid, ctype),
-    FOREIGN KEY (courseid) REFERENCES course(courseid)
+    FOREIGN KEY (courseid) REFERENCES course(courseid),
+    CHECK (ctype IN ('OE', 'DC', 'IC', 'HSS', 'ESO/SO', 'Thesis', 'DE'))
 );
 
 -- represents that in a given program you should take course with courseid in given semester, with ctype
@@ -83,7 +88,8 @@ CREATE TABLE template(
     ctype VARCHAR(10) NOT NULL,
     PRIMARY KEY (progid, courseid),
     FOREIGN KEY (progid) REFERENCES program(progid),
-    FOREIGN KEY (courseid) REFERENCES course(courseid)
+    FOREIGN KEY (courseid) REFERENCES course(courseid),
+    CHECK (ctype IN ('OE', 'DC', 'IC', 'HSS', 'ESO/SO', 'Thesis', 'DE'))
 );
 
 -- represents the programs offered by this department like cse offers minors in algorithms
@@ -153,18 +159,30 @@ CREATE TABLE course_undertaken(
     sem INTEGER,
     ctype VARCHAR(10),
     nature VARCHAR(10) NOT NULL, -- fresh/repeat
-    grade VARCHAR(1), -- NULL value for grade means that course is ongoing
-    quantity INTEGER NOT NULL, -- this is just to incorporate thesis courses
-                               -- for rest of the courses it is 1
-    progid INTEGER, -- for which prgram is he doing this course
-                    -- a person might do ESC207 in order to get 2 minor degrees.
-    PRIMARY KEY (rollno, courseid, fid, year, sem, progid),
+    quantity INTEGER NOT NULL, -- thesis courses
+                               -- for rest of the courses it is 1 this is just to incorporate th
+    PRIMARY KEY (rollno, courseid, fid, year, sem),
     FOREIGN KEY (courseid, fid, year, sem) REFERENCES offering(courseid, fid, year, sem),
             -- since this course must have been offered
     FOREIGN KEY (courseid, ctype) REFERENCES course_type(courseid, ctype),
-    FOREIGN KEY (progid) REFERENCES program(progid),
     FOREIGN KEY (rollno) REFERENCES student(rollno),
-    CHECK (nature='fresh' OR nature='repeat')
+    CHECK (nature='fresh' OR nature='repeat'),
+    CHECK (quantity > 0),
+    CHECK (ctype IN ('OE', 'DC', 'IC', 'HSS', 'ESO/SO', 'Thesis', 'DE'))
+);
+
+CREATE TABLE grades(
+    ID INTEGER PRIMARY KEY, -- This is just to allow multiple grades for same course
+                            -- useful for thesis courses
+    rollno INTEGER,
+    courseid VARCHAR(10),
+    fid INTEGER,
+    year INTEGER,
+    sem INTEGER,
+    grade VARCHAR(2), -- NULL value for grade means that course is ongoing  
+    FOREIGN KEY (rollno, courseid, fid, year, sem) REFERENCES course_undertaken(rollno, courseid, fid, year, sem),
+    CHECK (grade IN ('A*', 'A', 'B', 'C', 'D', 'E', 'F', 'S', 'X', 'W'))
+        -- W grade is given to student of sem exchange 'Waived'
 );
 
 CREATE TABLE faculty_advisor(

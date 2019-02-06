@@ -1,0 +1,9 @@
+department course is merged in course schema only.
+
+splitted tutors in 2 categories - student tutor, faculty tutor.
+
+CPI arrribute is added in student.
+
+Rest of the details are given via comments in the .sql file
+
+Added new table for grades to encorporate thesis courses.
